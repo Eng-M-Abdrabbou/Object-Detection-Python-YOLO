@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Object Detection</title>
+    <style>
+        #video-container {
+            position: relative;
+            width: 640px;
+            height: 480px;
+        }
+        #video {
+            width: 100%;
+            height: 100%;
+        }
+        #capture-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="video-container">
+        <video id="video" autoplay></video>
+        <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+    </div>
+    
+    <br> <br><br><br><br><br><br><br><br>
+    <div id="detected-objects"></div>
+    <p id="detected-objects-text">Detected objects will appear here.</p>
+    <div id="result"></div>
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const detectedObjectsDiv = document.getElementById('detected-objects');
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                video.play();
+                detectObjects(); // Start the detection loop
+            })
+            .catch(err => console.error('Error accessing webcam: ', err));
+
+        async function detectObjects() {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imgBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
+
+            const formData = new FormData();
+            formData.append('image', imgBlob);
+
+            const response = await fetch('/detect', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const objects = await response.json();
+                const detectedText = objects.map(obj => `${obj.name} (Confidence: ${obj.confidence.toFixed(2)})`).join(', ');
+                document.getElementById('detected-objects-text').innerText = `Detected objects: ${detectedText}`;
+            } else {
+                console.error('Error detecting objects:', response.statusText);
+            }
+
+            requestAnimationFrame(detectObjects); // Continue the detection loop
+        }
+    </script>
+</body>
+</html>
