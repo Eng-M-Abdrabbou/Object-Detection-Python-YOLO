@@ -23,8 +23,8 @@ VisionAid is a web-based object detection application that uses YOLOv5 to perfor
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/VisionAid.git
-cd VisionAid
+git clone git@github.com:Eng-M-Abdrabbou/Object-Detection-Python-YOLO.git
+cd Object-Detection-Python-YOLO
 ```
 
 ### 2. Install Dependencies
@@ -53,9 +53,9 @@ The application can detect a wide range of objects using the YOLOv5n pre-trained
 
 ## 📸 Screenshots
 
-<img src="\Images\1.png" width="300" height="150" />
+<img src="\Images\1.png" width="600" height="350" />
 
-<img src="\Images\2.png" width="300" height="150" />
+<img src="\Images\2.png" width="600" height="350" />
 
 
 ## 🤝 Contributing
