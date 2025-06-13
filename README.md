@@ -1,7 +1,7 @@
 # VisionAid: Real-Time Object Detection Web Application
 
 ## 🚀 Project Overview
-VisionAid is a web-based object detection application that uses YOLOv5 to perform real-time object recognition through your webcam. The application provides instant identification and confidence scores for detected objects.
+VisionAid is a web-based object detection application that uses YOLOv5 to perform real-time object recognition through your webcam. The application provides instant identification and confidence scores for detected objects. This model is pre-trained on the COCO dataset on roughly 80 objects.
 
 ## 🔧 Technologies Used
 - **Backend**: Flask (Python)
